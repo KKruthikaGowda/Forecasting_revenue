@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.modal table th,
+.modal table td {
+  padding: 8px 12px; /* Add padding to table headers and data cells */
+  text-align: left;
+}
+
+.modal table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modal table th {
+  background-color: #f2f2f2;
+}
