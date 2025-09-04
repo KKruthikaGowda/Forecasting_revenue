@@ -11,10 +11,22 @@ const MostLikelyDetailsPage = () => {
   const navigate = useNavigate();
   const { mostLikelyData } = location.state || {};
 
+  // Currency formatter
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value ?? 0);
+
   const initialRows = (mostLikelyData?.details ?? []).map((row) => ({
     ...row,
     confidencePercent: row.confidencePercent ?? 80,
-    baseMonthRevenue: row.monthRevenue
+    baseMonthRevenue: row.monthRevenue,
+    monthRevenue: formatCurrency(row.monthRevenue),
+    prevMonthRevenue: formatCurrency(row.prevMonthRevenue),
+    variance: formatCurrency(row.variance),
   }));
 
   const [rows, setRows] = useState(initialRows);
@@ -30,7 +42,8 @@ const MostLikelyDetailsPage = () => {
       const r = { ...updated[index] };
       r.confidencePercent = percent;
       const base = r.baseMonthRevenue ?? r.monthRevenue;
-      r.monthRevenue = Math.round((base * percent) / 100);
+      const updatedRevenue = Math.round((base * percent) / 100);
+      r.monthRevenue = formatCurrency(updatedRevenue);
       updated[index] = r;
       return updated;
     });
@@ -61,11 +74,11 @@ const MostLikelyDetailsPage = () => {
           return `<input type="number" min="0" max="100" value="${data ?? 0}" style="width: 80px;" data-row-index="${meta.row}" class="confidence-input" />`;
         }
         return data;
-      }
+      },
     },
     { title: 'Prev Revenue', data: 'prevMonthRevenue' },
     { title: 'Variance', data: 'variance' },
-    { title: 'Reason', data: 'varianceReason' }
+    { title: 'Reason', data: 'varianceReason' },
   ];
 
   const noData = !mostLikelyData || !mostLikelyData.details;
@@ -89,14 +102,14 @@ const MostLikelyDetailsPage = () => {
               if (input) {
                 input.addEventListener('change', (e) => {
                   handleConfidenceChange(dataIndex, e.target.value);
-                  e.target.value = String((rows[dataIndex]?.confidencePercent) ?? 0);
+                  e.target.value = String(rows[dataIndex]?.confidencePercent ?? 0);
                   const revenueCell = row.querySelector('td:nth-child(16)');
                   if (revenueCell) {
-                    revenueCell.textContent = String(rows[dataIndex]?.monthRevenue ?? 0);
+                    revenueCell.textContent = rows[dataIndex]?.monthRevenue ?? '$0.00';
                   }
                 });
               }
-            }
+            },
           }}
         />
       )}
@@ -104,4 +117,4 @@ const MostLikelyDetailsPage = () => {
   );
 };
 
-export default MostLikelyDetailsPage; 
+export default MostLikelyDetailsPage;

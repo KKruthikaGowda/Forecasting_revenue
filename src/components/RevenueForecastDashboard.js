@@ -6,16 +6,24 @@ const RevenueForecastDashboard = () => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [revenueData, setRevenueData] = useState({});
-  const [totalRevenue, setTotalRevenue] = useState(0); // New state for total revenue
+  const [totalRevenue, setTotalRevenue] = useState(0);
   const [selectedView, setSelectedView] = useState(null);
   const navigate = useNavigate();
+
+  // Currency formatter
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value ?? 0);
 
   useEffect(() => {
     fetchRevenueData();
   }, [year, month]);
 
   useEffect(() => {
-    // Calculate total revenue whenever revenueData changes
     const calculateTotal = () => {
       const baseline = revenueData.baseline?.totalRevenue || 0;
       const mostLikely = revenueData.mostLikely?.totalRevenue || 0;
@@ -24,13 +32,17 @@ const RevenueForecastDashboard = () => {
       setTotalRevenue(baseline + mostLikely + upside + bfd);
     };
 
-    if (revenueData.baseline || revenueData.mostLikely || revenueData.upside || revenueData.bfd) {
+    if (
+      revenueData.baseline ||
+      revenueData.mostLikely ||
+      revenueData.upside ||
+      revenueData.bfd
+    ) {
       calculateTotal();
     }
-  }, [revenueData]); // Depend on revenueData
+  }, [revenueData]);
 
   const fetchRevenueData = async () => {
-    // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     const mockData = {
@@ -56,9 +68,9 @@ const RevenueForecastDashboard = () => {
             monthRevenue: 240000,
             prevMonthRevenue: 230000,
             variance: 10000,
-            varianceReason: 'Rate increase'
-          }
-        ]
+            varianceReason: 'Rate increase',
+          },
+        ],
       },
       mostLikely: {
         totalRevenue: 1350000,
@@ -83,9 +95,9 @@ const RevenueForecastDashboard = () => {
             prevMonthRevenue: 200000,
             variance: 10000,
             varianceReason: 'Extra hours',
-            confidencePercent: 80 // default confidence
-          }
-        ]
+            confidencePercent: 80,
+          },
+        ],
       },
       upside: {
         totalRevenue: 1500000,
@@ -94,9 +106,9 @@ const RevenueForecastDashboard = () => {
             serviceLine: 'Strategy',
             project: 'Hermes',
             totalRevenue: 500000,
-            monthlySplit: [100000, 120000, 130000, 150000]
-          }
-        ]
+            monthlySplit: [100000, 120000, 130000, 150000],
+          },
+        ],
       },
       bfd: {
         totalRevenue: 1200000,
@@ -104,7 +116,7 @@ const RevenueForecastDashboard = () => {
           {
             projectId: 'P003',
             projectName: 'Athena',
-            discountPercentage: 0.05, // 5% discount
+            discountPercentage: 0.05,
             monthlyData: [
               { month: 'Jan', grossRevenue: 100000 },
               { month: 'Feb', grossRevenue: 80000 },
@@ -117,11 +129,11 @@ const RevenueForecastDashboard = () => {
               { month: 'Sep', grossRevenue: 115000 },
               { month: 'Oct', grossRevenue: 125000 },
               { month: 'Nov', grossRevenue: 130000 },
-              { month: 'Dec', grossRevenue: 140000 }
-            ]
-          }
-        ]
-      }
+              { month: 'Dec', grossRevenue: 140000 },
+            ],
+          },
+        ],
+      },
     };
 
     setRevenueData(mockData);
@@ -145,10 +157,18 @@ const RevenueForecastDashboard = () => {
 
       <div className="filters">
         <select value={year} onChange={(e) => setYear(Number(e.target.value))}>
-          {[2023, 2024, 2025].map((y) => <option key={y} value={y}>{y}</option>)}
+          {[2023, 2024, 2025].map((y) => (
+            <option key={y} value={y}>
+              {y}
+            </option>
+          ))}
         </select>
         <select value={month} onChange={(e) => setMonth(Number(e.target.value))}>
-          {[...Array(12)].map((_, i) => <option key={i+1} value={i+1}>{i+1}</option>)}
+          {[...Array(12)].map((_, i) => (
+            <option key={i + 1} value={i + 1}>
+              {i + 1}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -156,18 +176,20 @@ const RevenueForecastDashboard = () => {
         {/* Total Revenue Card */}
         <div className="total-revenue-card card">
           <h3>TOTAL REVENUE</h3>
-          <p>₹ {totalRevenue.toLocaleString()}</p>
+          <p>{formatCurrency(totalRevenue)}</p>
         </div>
+
         <div className="summary-cards">
           {['baseline', 'mostLikely', 'upside', 'bfd'].map((type) => (
             <div key={type} className="card" onClick={() => handleCardClick(type)}>
               <h3>{type.toUpperCase()}</h3>
-              <p>₹ {revenueData[type]?.totalRevenue?.toLocaleString() || '0'}</p>
+              <p>{formatCurrency(revenueData[type]?.totalRevenue || 0)}</p>
             </div>
           ))}
         </div>
       </div>
 
+      {/* Optional Modal */}
       {/* {selectedView && (
         <RevenueDetailModal
           viewType={selectedView}
