@@ -154,4 +154,252 @@ th, td {
   margin-right: auto;
   width: 80%; /* Adjust as needed */
 }
-  
+.card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+  animation-delay: calc(var(--i) * 0.1s);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.loader {
+  font-size: 1.2em;
+  color: #007bff;
+  margin-top: 40px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+.home-page {
+  padding: 40px;
+  text-align: center;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-page .dashboard-title {
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.home-page .action-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.home-page .action-buttons button {
+  padding: 12px 24px;
+  font-size: 1.1em;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.home-page .action-buttons button:hover {
+  background-color: #0056b3;
+}
+.card-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.card-actions button {
+  padding: 6px 12px;
+  font-size: 0.9em;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.card-actions button:hover {
+  background-color: #0056b3;
+}
+
+.upload-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.upload-actions button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #28a745;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.upload-actions button:hover {
+  background-color: #218838;
+}
+.upload-page {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.upload-page h2 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.upload-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.upload-card {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  width: 220px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  color: #007bff;
+}
+
+.upload-card input[type="file"] {
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.card-actions button {
+  padding: 6px 12px;
+  font-size: 0.9em;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.card-actions button:hover {
+  background-color: #0056b3;
+}
+
+.upload-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.upload-actions button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #28a745;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.upload-actions button:hover {
+  background-color: #218838;
+}
+/* Main page titles */
+.dashboard-title,
+.upload-page h2,
+.home-page .dashboard-title {
+  color: #222; /* Deep black-gray */
+}
+
+/* Card titles */
+.upload-card h3,
+.card h3,
+.details-page h2,
+.bfd-details-page h2 {
+  color: #444; /* Medium gray for subheadings */
+}
+
+/* Table headers */
+th {
+  background-color: #f0f0f0;
+  color: #333; /* Dark gray for contrast */
+}
+
+/* Optional: modal title */
+.modal h2 {
+  color: #222;
+}
+.filters {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.filters label {
+  font-weight: bold;
+  color: #555;
+}
+
+.filters select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+}
+
+.filters select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+.dashboard-container {
+  position: relative;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align content to the left */
+  width: 100%;
+  box-sizing: border-box;
+}
