@@ -38,36 +38,16 @@ const BfdDetailsPage = () => {
 
     const monthlyRevenue = {};
     rowData.monthlyData.forEach(item => {
-      monthlyRevenue[item.month] = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(item.grossRevenue);
-      
+      monthlyRevenue[item.month] = item.grossRevenue.toLocaleString();
     });
 
     tableData.push({
       'Project ID': rowData.projectId,
       'Project Name': rowData.projectName,
       ...monthlyRevenue,
-      'Total Gross Revenue': new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-}).format(totalGrossRevenue),
-
-'Total Discount (5%)': new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-}).format(totalDiscount),
-
-'Total Net Amount': new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-}).format(totalNetAmount),
-
+      'Total Gross Revenue': totalGrossRevenue.toLocaleString(),
+      'Total Discount (5%)': totalDiscount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      'Total Net Amount': totalNetAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
     });
   }
 

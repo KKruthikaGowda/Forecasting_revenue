@@ -1,78 +1,60 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const uploadTypes = [
+  'Cognizant Holiday',
+  'Associate Holiday',
+  'Baseline',
+  'BFD',
+  'Upside',
+  'Most Likely'
+];
+
 const UploadPage = () => {
   const navigate = useNavigate();
-  const [cognizantUploaded, setCognizantUploaded] = useState(false);
-  const [files, setFiles] = useState({
-    cognizant: null,
-    associate: null,
-    baseline: null,
-    bfd: null,
-    upside: null,
-    mostlikely: null,
-  });
+  const [files, setFiles] = useState({});
 
   const handleFileChange = (type, file) => {
-    if (type !== 'cognizant' && !cognizantUploaded) {
-      alert('Please upload Cognizant Holiday sheet first.');
-      return;
-    }
     setFiles((prev) => ({ ...prev, [type]: file }));
-    if (type === 'cognizant') setCognizantUploaded(true);
+  };
+
+  const handleUpload = (type) => {
+    const file = files[type];
+    if (file) {
+      console.log(`Uploading ${type}:`, file.name);
+      // Add actual upload logic here
+    } else {
+      alert(`Please select a file for ${type}`);
+    }
   };
 
   const handleCancel = (type) => {
     setFiles((prev) => ({ ...prev, [type]: null }));
-    if (type === 'cognizant') setCognizantUploaded(false);
   };
-
-  const handleShowData = () => {
-    console.log('Uploaded files:', files);
-    navigate('/dashboard');
-  };
-
-  const uploadCards = [
-    { key: 'cognizant', label: 'Cognizant Holiday' },
-    { key: 'associate', label: 'Associate Holiday' },
-    { key: 'baseline', label: 'Baseline' },
-    { key: 'bfd', label: 'BFD' },
-    { key: 'upside', label: 'Upside' },
-    { key: 'mostlikely', label: 'Most Likely' },
-  ];
 
   return (
     <div className="upload-page">
-      <h2>Upload Revenue Forecast Sheets</h2>
+      <h2>Upload Excel Files</h2>
       <div className="upload-cards">
-        {uploadCards.map(({ key, label }) => (
-          <div key={key} className="upload-card">
-            <h3>{label}</h3>
+        {uploadTypes.map((type) => (
+          <div key={type} className="upload-card">
+            <h3>{type}</h3>
             <input
               type="file"
               accept=".xlsx, .xls"
-              onChange={(e) => handleFileChange(key, e.target.files[0])}
+              onChange={(e) => handleFileChange(type, e.target.files[0])}
             />
-            <div className="card-actions">
-              <button
-                onClick={() => {
-                  if (files[key]) {
-                    alert(`${label} sheet already selected.`);
-                  } else {
-                    alert(`Please select a file to upload for ${label}.`);
-                  }
-                }}
-              >
-                Upload
-              </button>
-              <button onClick={() => handleCancel(key)}>Cancel</button>
+            {files[type] && <p>Selected: {files[type].name}</p>}
+            <div className="card-buttons">
+              <button onClick={() => handleUpload(type)}>Upload</button>
+              <button onClick={() => handleCancel(type)}>Cancel</button>
             </div>
           </div>
         ))}
       </div>
-      <div className="upload-actions">
+      <div className="navigation-buttons">
         <button onClick={() => navigate('/')}>Back</button>
-        <button onClick={handleShowData}>Show Data</button>
+        <button onClick={() => navigate('/dashboard')}>View Dashboard</button>
       </div>
     </div>
   );
