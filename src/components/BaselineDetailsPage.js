@@ -1,8 +1,11 @@
 import React, { useEffect, useRef } from 'react';
+import '../App.css';
+
 import { useLocation, useNavigate } from 'react-router-dom';
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
 import 'datatables.net-dt/css/dataTables.dataTables.css';
+
 
 DataTable.use(DT);
 
